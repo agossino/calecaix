@@ -66,7 +66,7 @@
                             <label class="labex">Scelta del metodo di creazione dell'attività e del tipo di iscrizione
                             </label>
                             <br><br>
-                            <label class="lab">Tipo di volantino programma *</label>
+                            <label class="lab">Tipo di volantino programma</label>
                             <br>
                             <label>E' possibile selezionare tre tipi di volantino dove:<br><span
                                 style="font-weight:700"> interno</span>
