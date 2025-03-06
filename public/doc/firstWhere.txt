@@ -1,0 +1,4 @@
+
+{{$tipoiscrizione->firstWhere('id', $attiv->tipo_iscrizione)->nome ?? '' }}
+
+{{$tipoattivita->firstWhere('id', $attiv->tipo_attivita)->nome ?? '' }}

@@ -1,0 +1,12 @@
+Per rimuovere un collegamento simbolico che è una directory, puoi utilizzare il comando rm -r invece di unlink. Ecco come fare:
+
+Rimuovi il collegamento simbolico esistente:
+rm -r public/storage
+
+
+Ricrea il collegamento simbolico:
+php artisan storage:link
+
+-- SU NETSON da pannello di controllo utilizzare  Advenced Terminal e con cd public_html ecc  andare in calecai --------
+
+--- Le immagini vanno messe in: calecai_3/storage/app/public/imgtrek e i pdf in calecai_3/storage/app/public/pdftrek ---
