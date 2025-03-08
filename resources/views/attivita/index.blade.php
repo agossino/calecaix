@@ -56,8 +56,8 @@ $attivita = $viewData['attivita'];
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 10px;
-        width: 250px;
-        height: 270px;
+        width: 270px;
+        height: 250px;
         padding-right: 5px;
     }
 
@@ -398,7 +398,8 @@ $attivita = $viewData['attivita'];
                         <div class="mod">
                             @if (isset($user) && ($user->role == 'editor' || $user->role == 'amministratore'))
                                 <br>
-                                <span>{{ "id-{$attiv->id} iscr-{$attiv->tipo_iscrizione} clic {$attiv->clic} tipo {$attiv->tipo_volantino}" }}
+                                <span>{{ "id-{$attiv->id} iscr-{$attiv->tipo_iscrizione} clic {$attiv->clic} tipo {$attiv->tipo_volantino}" }}<br>
+                                    {{ $attiv->nome.' '.$attiv->cognome.' - '.$attiv->email. ' ' }}@if(isset($attiv->telefono)){{ $attiv->telefono }}@endif
                                 </span>
                             @endif
                         </div>
