@@ -76,9 +76,10 @@ $attivita = $viewData['attivita'];
     }
 
     .gruppo-titolo {
-    min-height: 100px;
-    padding-left: 10px;
-}
+        min-height: 100px;
+        padding-left: 10px;
+    }
+
     .categoria {
         text-align: center;
         color: rgb(88 12 12);
@@ -304,68 +305,72 @@ $attivita = $viewData['attivita'];
                                         <br>
 
                                         <!-- Lista iscritti se accompagnatore e tipo iscrizione 1 = modulo caibo-->
-                                        @if (isset($attiv->tipo_iscrizione) && $attiv->tipo_iscrizione != 4)
-                                            @if (isset($attiv->inizio_iscrizioni) && isset($attiv->fine_iscrizioni))
-                                                @if ($dataOggius >= $attiv->inizio_iscrizioni && $dataOggius < $attiv->fine_iscrizioni)
-                                                    <!-- ISCRIZIONE ---->
-                                                    @if ($attiv->tipo_iscrizione == 3)
-                                                        <div>
-                                                            @if (strpos($attiv->link_modulo_esterno, 'https://') !== false ||
-                                                                    strpos($attiv->link_modulo_esterno, 'http://') !== false)
-                                                              
-                                                               <a href="{{ $attiv->link_modulo_esterno }}">
+                                        @if ($attiv->tipo_attivita != 0) <!-- calendario annuale -->
+                                            @if (isset($attiv->tipo_iscrizione) && $attiv->tipo_iscrizione != 4)
+                                                @if (isset($attiv->inizio_iscrizioni) && isset($attiv->fine_iscrizioni))
+                                                    @if ($dataOggius >= $attiv->inizio_iscrizioni && $dataOggius < $attiv->fine_iscrizioni)
+                                                        <!-- ISCRIZIONE ---->
+                                                        @if ($attiv->tipo_iscrizione == 3)
+                                                            <div>
+                                                                @if (strpos($attiv->link_modulo_esterno, 'https://') !== false ||
+                                                                        strpos($attiv->link_modulo_esterno, 'http://') !== false)
+                                                                    <a href="{{ $attiv->link_modulo_esterno }}">
+                                                                        <span
+                                                                            style="color:rgba(var(--bs-link-color-rgb)">{{ 'Iscrizione' }}<br>
+                                                                            @if ($attiv->socio == 1)
+                                                                                <label class="socio">Solo
+                                                                                    soci</label><br>
+                                                                            @endif
+                                                                            @if ($attiv->socio == 0)
+                                                                                <label class="socio"><span
+                                                                                        class="libera">
+                                                                                        Soci</span></label><br>
+                                                                            @endif
+                                                                        </span>
+                                                                    </a>
+                                                                @else
                                                                     <span
-                                                                        style="color:rgba(var(--bs-link-color-rgb)">{{ 'Iscrizione' }}<br>
-                                                                        @if ($attiv->socio == 1)
-                                                                            <label class="socio">Solo soci</label><br>
-                                                                        @endif
-                                                                        @if ($attiv->socio == 0)
-                                                                            <label class="socio"><span class="libera">
-                                                                                    Soci</span></label><br>
-                                                                        @endif
-                                                                    </span>
-                                                                </a>
-                                                            @else
-                                                                <span style="color:green">{{ 'Iscrizione' }}</span><br>
-                                                            @endif
-                                                        </div>
+                                                                        style="color:green">{{ 'Iscrizione' }}</span><br>
+                                                                @endif
+                                                            </div>
+                                                        @else
+                                                            <a
+                                                                href="{{ url('/iscrizione/tipo' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">
+                                                                {{ 'Iscrizione' }}
+                                                                @if ($attiv->socio == 1)
+                                                                    <label class="socio">(Soci CAI)</label><br>
+                                                                @endif
+                                                            </a>
+                                                        @endif
                                                     @else
-                                                        <a
-                                                            href="{{ url('/iscrizione/tipo' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">
-                                                            {{ 'Iscrizione' }}
-                                                            @if ($attiv->socio == 1)
-                                                                <label class="socio">(Soci CAI)</label><br>
-                                                            @endif
-                                                        </a>
+                                                        {{ 'Iscrizioni chiuse' }}<br>
                                                     @endif
-                                                @else
-                                                    {{ 'Iscrizioni chiuse' }}<br>
-                                                @endif
 
-                                                @if ($attiv->inizio_iscrizioni)
-                                                    @php
-                                                        $inizio_iscr = Carbon::createFromFormat(
-                                                            'Y-m-d',
-                                                            $attiv->inizio_iscrizioni,
-                                                        )->format('d-m-Y');
-                                                    @endphp
-                                                    <br>
-                                                    {{ 'Inizio ' . $inizio_iscr }}
-                                                @endif
+                                                    @if ($attiv->inizio_iscrizioni)
+                                                        @php
+                                                            $inizio_iscr = Carbon::createFromFormat(
+                                                                'Y-m-d',
+                                                                $attiv->inizio_iscrizioni,
+                                                            )->format('d-m-Y');
+                                                        @endphp
+                                                        <br>
+                                                        {{ 'Inizio ' . $inizio_iscr }}
+                                                    @endif
 
-                                                @if ($attiv->fine_iscrizioni)
-                                                    @php
-                                                        $fine_iscr = Carbon::createFromFormat(
-                                                            'Y-m-d',
-                                                            $attiv->fine_iscrizioni,
-                                                        )->format('d-m-Y');
-                                                    @endphp
-                                                    <br>
-                                                    {{ 'Fine ' . $fine_iscr }}
+                                                    @if ($attiv->fine_iscrizioni)
+                                                        @php
+                                                            $fine_iscr = Carbon::createFromFormat(
+                                                                'Y-m-d',
+                                                                $attiv->fine_iscrizioni,
+                                                            )->format('d-m-Y');
+                                                        @endphp
+                                                        <br>
+                                                        {{ 'Fine ' . $fine_iscr }}
+                                                    @endif
                                                 @endif
+                                            @else
+                                                {{ 'Nessuna Iscrizione' }} 
                                             @endif
-                                        @else
-                                            {{ 'Nessuna Iscrizione' }}
                                         @endif
 
                                     </div>
@@ -399,7 +404,9 @@ $attivita = $viewData['attivita'];
                             @if (isset($user) && ($user->role == 'editor' || $user->role == 'amministratore'))
                                 <br>
                                 <span>{{ "id-{$attiv->id} iscr-{$attiv->tipo_iscrizione} clic {$attiv->clic} tipo {$attiv->tipo_volantino}" }}<br>
-                                    {{ $attiv->nome.' '.$attiv->cognome.' - '.$attiv->email. ' ' }}@if(isset($attiv->telefono)){{ $attiv->telefono }}@endif
+                                    {{ $attiv->nome . ' ' . $attiv->cognome . ' - ' . $attiv->email . ' ' }}@if (isset($attiv->telefono))
+                                        {{ $attiv->telefono }}
+                                    @endif
                                 </span>
                             @endif
                         </div>

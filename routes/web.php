@@ -133,6 +133,9 @@ Route::controller(AttivitaFormController::class)->group(function () {
     Route::get('/form/page2', 'showPage2');
     Route::post('/form/page2', 'postPage2');
 
+    Route::get('/form/page2b', 'showPage2b');
+    Route::post('/form/page2b', 'postPage2b');
+
     Route::get('/form/page3', 'showpage3');
     Route::post('/form/page3', 'postpage3');
     

@@ -87,7 +87,7 @@
 
                 <div class="grid-item"><a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/0') }}">
                         <div class="tit-testo">Calendario Attivita Sezionale</div>
-                        <label>Tutti i calendari annuali e parziali</label>
+                        <label>Tutti i calendari annuali</label>
                         <img class="ima"
                             src="img/calendario.jpeg" alt="Calendario escursioni cai Bologna">
                     </a></div>
@@ -153,7 +153,7 @@
                 </div>
 
                 <div class="grid-item">
-                    <li> <a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/10') }}">
+                    <li> <a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/9') }}">
                             <div class="tit-testo">Eventi sede CAI Bologna</div>
                             <label>Eventi vari in sede </label>
                             <img class="ima" src="img/eventi.png"
@@ -161,6 +161,7 @@
                         </a></li>
                 </div>
 
+          
                 {{-- <div class="grid-item">
                     <li> <a class="btn  btn-sm" href="{{ url("/mercatino.index") }}">
                         <div class="tit-testo">MMERCATINO CAIBO</div><img class="ima" src="img/submarine.png"

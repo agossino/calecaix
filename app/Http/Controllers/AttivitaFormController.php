@@ -31,6 +31,7 @@ class AttivitaFormController extends Controller
      *1b
      *1c
      *2
+     *2b
      *3
      *3b no
      *6
@@ -80,6 +81,7 @@ class AttivitaFormController extends Controller
 
         session()->put('tipo_volantino', $request->tipo_volantino);
 
+     
         // visualizza pagina successiva
         return redirect('/form/page1b');
 
@@ -106,7 +108,10 @@ class AttivitaFormController extends Controller
         session()->put('tipo_socio', $request->tipo_socio);
         session()->put('tipo_attivita', $request->tipo_attivita);
         session()->put('tipo_iscrizione', $request->tipo_iscrizione);
-
+       
+        if($request->tipo_attivita[0] == 0){
+            return redirect('/form/page2b');
+        }
         // visualizza pagina successiva
         return redirect('/form/page1c');
 
@@ -156,6 +161,25 @@ class AttivitaFormController extends Controller
         // visualizza pagina successiva
         return redirect('/form/page3');
     }
+
+
+        // --------------- page 2b ---------------------
+        /**
+         * Calendario sezionale annuale
+         */
+        public function showpage2b()
+        {
+            return view('form.page2b');
+        }
+        public function postpage2b(Request $request)
+        {
+            //dd($request->all());
+            $request->validate([
+            ]);
+            session(['page2b' => $request->all()]);
+            // visualizza pagina successiva
+            return redirect('/form/page6');
+        }
 
     // --------------- page 3_ ---------------------
     public function showPage3()
