@@ -211,8 +211,9 @@ class AttivitaController extends Controller
         $viewData['attivita'] = Attivita::all();
         return view('attivita/list')->with("viewData", $viewData);
     }
+
     /**
-     * Aggiorna escursione da escurioni.edit.blade.php
+     * Aggiorna 
      */
 
     public function save_edit(Request $request, $id)
