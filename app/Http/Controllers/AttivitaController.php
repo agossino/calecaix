@@ -131,7 +131,7 @@ class AttivitaController extends Controller
         return view('attivita.index')->with("viewData", $viewData);
     }
 
-// funzione index altenativa da finire e provare
+// funzione index altenativa da finire e provare (tutti i nomi che finiscono per _x sono provvisori e si possono cancellare)
     public function index_x(Request $request, $dataOggi = null, $categoria): \Illuminate\Contracts\View\View
     {
         $dataOggi             = $dataOggi ?? now()->format('Y-m-d'); // Usa la data di oggi se non è fornita
@@ -369,7 +369,6 @@ class AttivitaController extends Controller
         }
         $escursio->save();
 
-       
         $viewData              = [];
         $viewData['attivita']  = Attivita::where('published', '!=', 0)->get();
         $viewData['published'] = ['1' => 'Abilitato', '0' => 'Escluso'];
@@ -481,11 +480,11 @@ class AttivitaController extends Controller
     }
     public function get_programma($id)
     {
-        $viewData = [];
+        $viewData             = [];
         $viewData['attivita'] = Attivita::find($id);
 
         return view('attivita/programma')->with("viewData", $viewData);
-    }  
+    }
 }
 function import_images_from_web($url)
 {
@@ -510,7 +509,7 @@ function import_pdf_from_web($url)
         return null;
     }
 
-  function import_images_from_web($url)
+    function import_images_from_web($url)
     {
         $url           = 'https://caibo.it/' . $url;
         $imageContents = file_get_contents($url);
@@ -521,6 +520,5 @@ function import_pdf_from_web($url)
             return null;
         }
     }
-
 
 }
