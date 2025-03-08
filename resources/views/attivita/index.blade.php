@@ -168,6 +168,9 @@ $attivita = $viewData['attivita'];
         color: green;
     }
 
+    .annuale{
+        margin-left:-145px;
+    }
     /* Responsive Styles */
     @media (max-width: 1200px) {
         .grid-container_attivita {
@@ -286,8 +289,9 @@ $attivita = $viewData['attivita'];
                             </li>
                             <li>
                                 <!------------------------- PROGRAMMA ----------------------------->
-                                <div class="item">
 
+                                <div class="item">
+                                    @if ($attiv->tipo_attivita != 0)
                                     <div class="prog">
                                         <!-- visualizza volantino -->
                                         @if ($attiv->tipo_volantino == 0)
@@ -305,7 +309,8 @@ $attivita = $viewData['attivita'];
                                         <br>
 
                                         <!-- Lista iscritti se accompagnatore e tipo iscrizione 1 = modulo caibo-->
-                                        @if ($attiv->tipo_attivita != 0) <!-- calendario annuale -->
+                                      
+                                            <!-- calendario annuale -->
                                             @if (isset($attiv->tipo_iscrizione) && $attiv->tipo_iscrizione != 4)
                                                 @if (isset($attiv->inizio_iscrizioni) && isset($attiv->fine_iscrizioni))
                                                     @if ($dataOggius >= $attiv->inizio_iscrizioni && $dataOggius < $attiv->fine_iscrizioni)
@@ -369,8 +374,14 @@ $attivita = $viewData['attivita'];
                                                     @endif
                                                 @endif
                                             @else
-                                                {{ 'Nessuna Iscrizione' }} 
+                                                {{ 'Nessuna Iscrizione' }}
                                             @endif
+                                        @else
+                                        <br>
+                                       <div class='annuale'>
+                                        <a targhet="_blank"
+                                        href="{{ url('/attivita/get_programma' . '/' . $attiv->id) }}">Programma</a>
+                                       </div>
                                         @endif
 
                                     </div>
@@ -404,7 +415,8 @@ $attivita = $viewData['attivita'];
                             @if (isset($user) && ($user->role == 'editor' || $user->role == 'amministratore'))
                                 <br>
                                 <span>{{ "id-{$attiv->id} iscr-{$attiv->tipo_iscrizione} clic {$attiv->clic} tipo {$attiv->tipo_volantino}" }}<br>
-                                    {{ $attiv->nome . ' ' . $attiv->cognome . ' - ' . $attiv->email . ' ' }}@if (isset($attiv->telefono))
+                                    {{ $attiv->nome . ' ' . $attiv->cognome . ' - ' . $attiv->email . ' ' }}
+                                    @if (isset($attiv->telefono))
                                         {{ $attiv->telefono }}
                                     @endif
                                 </span>

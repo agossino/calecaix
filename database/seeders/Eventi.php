@@ -34,7 +34,7 @@ class Eventi extends Seeder
     
 
         DB::table('tipo_attivitas')->truncate();
-        DB::table('tipo_attivitas')->insert(['id' => 0, 'published' => 0,'tipo_attivita' => 0, 'order' => 0, 'nome' => 'Calendario','descrizione' => 'Calendari attivita diverse con date durante l\'anno']);
+        DB::table('tipo_attivitas')->insert(['id' => 0, 'published' => 0,'tipo_attivita' => 0, 'order' => 0, 'nome' => 'Calendario Sezionale','descrizione' => 'Calendari attivita diverse con date durante l\'anno']);
         DB::table('tipo_attivitas')->insert(['id' => 1, 'tipo_attivita' => 1, 'order' => 1, 'nome' => 'Escursionismo','descrizione' => 'Trekkig in Italia']);
         DB::table('tipo_attivitas')->insert(['id' => 2, 'tipo_attivita' => 2,  'order' => 2,'nome' => 'Corsi', 'descrizione' => 'Corsi di qualsiasi tipo']);
         DB::table('tipo_attivitas')->insert(['id' => 3, 'tipo_attivita' => 3,  'order' => 3,'nome' => 'Grandi Trekking','descrizione' => 'Trekking a tappe successive in Italia e all\'estero di piu giorni']);
