@@ -245,7 +245,7 @@ $attivita = $viewData['attivita'];
                             <div>
                                 @if (isset($attiv->titolo) && $attiv->titolo != '')
                                     <a href="{{ url('/attivita/singolo' . '/' . $attiv->id) }}">
-                                        <p class="card-title">{{ $attiv->titolo.'-' }}</p>
+                                        <p class="card-title">{{ $attiv->titolo }}</p>
                                     </a>
                                 @else
                                     {{ 'MANCA IL TITOLO' }}

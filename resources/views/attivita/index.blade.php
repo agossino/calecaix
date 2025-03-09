@@ -76,9 +76,10 @@ $attivita = $viewData['attivita'];
     }
 
     .gruppo-titolo {
-    min-height: 100px;
-    padding-left: 10px;
-}
+        min-height: 100px;
+        padding-left: 10px;
+    }
+
     .categoria {
         text-align: center;
         color: rgb(88 12 12);
@@ -196,10 +197,7 @@ $attivita = $viewData['attivita'];
         <div class="container-lg">
 
             <x-menu-bar>
-                @if ($attivita->isEmpty())
-                    <span style="color:red;margin-left:5px;margin-top:2px;"> Nessuna attività trovata da questa data
-                    </span>
-                @endif
+
 
                 <form action="{{ url('attivita/cerca' . '/index') }}" method="GET">
                     <label class="lb_cerca"> </label>
@@ -216,223 +214,26 @@ $attivita = $viewData['attivita'];
             @endif
 
             <div class="grid-container_attivita">
-
-                @foreach ($attivita as $attiv)
-                    <div class="card carta">
-
-                        <!-- visualizza tipo di attivita nel box in alto -->
-                        <div class="categoria">
-                            @if ($attiv->tipo_attivita != '')
-                                @if ($attiv->calendario == '0')
-                                    {{ $tipoattivita->find($attiv->tipo_attivita)->nome }}
-                                @else
-                                    {{ 'Calendario ' }}{{ $tipoattivita->find($attiv->tipo_attivita)->nome }}
-                                @endif
-                            @else
-                                {{ 'ERRORE NEI DATI INSERITI' }}
-                            @endif
-                        </div>
-
-                        @if (isset($attiv->image_file) && $attiv->image_file != null)
-                            <a href="{{ url('/attivita/singolo' . '/' . $attiv->id) }}">
-                                <img class="img_box" src="{{ asset('storage/imgtrek/' . $attiv->image_file) }}"
-                                    alt="attivita cai bologna"></a>
-                        @else
-                            {{ 'IMMAGINE MANCANTE' }}
-                        @endif
-
-                        <div class="gruppo-titolo">
-                            <div>
-                                @if (isset($attiv->titolo) && $attiv->titolo != '')
-                                    <a href="{{ url('/attivita/singolo' . '/' . $attiv->id) }}">
-                                        <p class="card-title">{{ $attiv->titolo }}</p>
-                                    </a>
-                                @else
-                                    {{ 'MANCA IL TITOLO' }}
-                                @endif
-                            </div>
-                            <div class="note">
-                                <!-- Note sottotitolo-->
-                                @if (isset($attiv->note) && $attiv->note != '')
-                                    <p class="card-text">{{ strip_tags($attiv->note) }}</p>
-                                @endif
-                            </div>
-                        </div>
-
-                        @php
-                            // $fine = Carbon::createFromFormat('Y-m-d', $attiv->data_fine)->format('d-m-Y');
-                            // $inizio = Carbon::createFromFormat('Y-m-d', $attiv->data_inizio)->format('d-m-Y');
-                            $inizio = Carbon::createFromFormat('Y-m-d', $attiv->data_inizio)->format('d-m-Y');
-                            $fine = Carbon::createFromFormat('Y-m-d', $attiv->data_fine)->format('d-m-Y');
-                        @endphp
-
-                        <ul class="list-date">
-                            <li>
-                                <label class="lab">Inizio</label><span class="dato">{{ $inizio }}</span>
-                            </li>
-
-                            @if ($attiv->calendario == 1)
-                                <div class="item_2">
-                                    <label class="prog">Vedi date intermedie<br>
-                                        da Programma</label>
-                                </div>
-                                {{-- <a target="_blank" href="{{ url('/show-pdf' . '/' . $attiv->pdf_file) }}">Vedi date
-                            intermedie<br>
-                            da Programma</a> --}}
-                            @endif
-                            <li><label class="lab">Fine</label>
-                                <span class="dato">{{ $fine }}</span>
-                            </li>
-                            <li>
-                                <!------------------------- PROGRAMMA ----------------------------->
-                                <div class="item">
-
-                                    <div class="prog">
-                                        <!-- visualizza volantino -->
-                                        @if ($attiv->tipo_volantino == 0)
-                                            <!-- visualizza file pdf aggiornato del tipo_volantino interno--->
-                                            <a target="_blank"
-                                                href="{{ url('/show-pdf' . '/' . $attiv->pdf_file . '/' . $attiv->id) . '?t=' . time() }}">Programma</a>
-                                        @elseif($attiv->tipo_volantino == 2)
-                                            <!-- visualizza file pdf aggiornato del tipo_volantino autogenerato--->
-                                            <a targhet="_blank"
-                                                href="{{ url('/attivita/get_programma' . '/' . $attiv->id) }}">Programma</a>
-                                        @elseif($attiv->tipo_volantino == 1)
-                                            <!-- visualizza file pdf del tipo_volantino link su server esterno-->
-                                            {{ 'Programma non disponibile' }}
-                                        @endif
-                                        <br>
-
-                                        <!-- Lista iscritti se accompagnatore e tipo iscrizione 1 = modulo caibo-->
-                                        @if (isset($attiv->tipo_iscrizione) && $attiv->tipo_iscrizione != 4)
-                                            @if (isset($attiv->inizio_iscrizioni) && isset($attiv->fine_iscrizioni))
-                                                @if ($dataOggius >= $attiv->inizio_iscrizioni && $dataOggius < $attiv->fine_iscrizioni)
-                                                    <!-- ISCRIZIONE ---->
-                                                    @if ($attiv->tipo_iscrizione == 3)
-                                                        <div>
-                                                            @if (strpos($attiv->link_modulo_esterno, 'https://') !== false ||
-                                                                    strpos($attiv->link_modulo_esterno, 'http://') !== false)
-                                                              
-                                                               <a href="{{ $attiv->link_modulo_esterno }}">
-                                                                    <span
-                                                                        style="color:rgba(var(--bs-link-color-rgb)">{{ 'Iscrizione' }}<br>
-                                                                        @if ($attiv->socio == 1)
-                                                                            <label class="socio">Solo soci</label><br>
-                                                                        @endif
-                                                                        @if ($attiv->socio == 0)
-                                                                            <label class="socio"><span class="libera">
-                                                                                    Soci</span></label><br>
-                                                                        @endif
-                                                                    </span>
-                                                                </a>
-                                                            @else
-                                                                <span style="color:green">{{ 'Iscrizione' }}</span><br>
-                                                            @endif
-                                                        </div>
-                                                    @else
-                                                        <a
-                                                            href="{{ url('/iscrizione/tipo' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">
-                                                            {{ 'Iscrizione' }}
-                                                            @if ($attiv->socio == 1)
-                                                                <label class="socio">(Soci CAI)</label><br>
-                                                            @endif
-                                                        </a>
-                                                    @endif
-                                                @else
-                                                    {{ 'Iscrizioni chiuse' }}<br>
-                                                @endif
-
-                                                @if ($attiv->inizio_iscrizioni)
-                                                    @php
-                                                        $inizio_iscr = Carbon::createFromFormat(
-                                                            'Y-m-d',
-                                                            $attiv->inizio_iscrizioni,
-                                                        )->format('d-m-Y');
-                                                    @endphp
-                                                    <br>
-                                                    {{ 'Inizio ' . $inizio_iscr }}
-                                                @endif
-
-                                                @if ($attiv->fine_iscrizioni)
-                                                    @php
-                                                        $fine_iscr = Carbon::createFromFormat(
-                                                            'Y-m-d',
-                                                            $attiv->fine_iscrizioni,
-                                                        )->format('d-m-Y');
-                                                    @endphp
-                                                    <br>
-                                                    {{ 'Fine ' . $fine_iscr }}
-                                                @endif
-                                            @endif
-                                        @else
-                                            {{ 'Nessuna Iscrizione' }}
-                                        @endif
-
-                                    </div>
-
-                                    <!-- Lista iscritti se accompagnatore e tipo iscrizione 1 = modulo caibo-->
-
-                                    @if (isset($user) && ($user->role == 'accompagnatore' || $user->role == 'amministratore'))
-                                        @if ($attiv->tipo_iscrizione == 3)
-                                        @endif
-
-                                        @if ($attiv->tipo_iscrizione == 1)
-                                            <a
-                                                href="{{ url('/iscritti/show' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">Lista
-                                                Iscritti
-                                            </a>
-                                        @endif
-                                    @endif
-
-
-                                </div>
-                            </li>
-                        </ul>
-
-                        {{-- sospeso  
-                        <div class="contatti">
-                            <label class="lab">Contatti</label><br>
-                            <p class="contatti">{{ $attiv->contatti }}</p>
-                        </div> --}}
-
-                        <div class="mod">
-                            @if (isset($user) && ($user->role == 'editor' || $user->role == 'amministratore'))
-                                <br>
-                                <span>{{ "id-{$attiv->id} iscr-{$attiv->tipo_iscrizione} clic {$attiv->clic} tipo {$attiv->tipo_volantino}" }}<br>
-                                    {{ $attiv->nome.' '.$attiv->cognome.' - '.$attiv->email. ' ' }}@if(isset($attiv->telefono)){{ $attiv->telefono }}@endif
-                                </span>
-                            @endif
-                        </div>
-
-                    </div>
-                @endforeach
-
+                <!-- visualizza tipo di attivita nel box in alto -->
+            @foreach ($attivita as $attiv)
+            <div class="card carta">
+                @if ($attiv->tipo_attivita == 0)
+                    @include('parziali.calendario', ['attivita' => $attiv])
+                @elseif ($attiv->tipo_attivita == 1)
+                    @include('parziali.trekking', ['attivita' => $attiv])
+                @endif
             </div>
+            @endforeach
+
         </div>
+
+
+
+
+
     </div>
 
+
+
+
 </x-layout_cai>
-
-
-<script>
-    function aggiungiData() {
-        var dataOggi = document.getElementById('dataOggi_index').value;
-    }
-</script>
-
-
-
-<script type="text/javascript">
-    $('.date').datepicker({
-        format: 'dd-mm-yyyy'
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        // Animazione di un elemento con ID "myElement"
-        $("#myImage").animate({
-            top: "10px", // Sposta l'elemento a sinistra di 100px
-        }, 2000); // Durata dell'animazione in millisecondi
-    });
-</script>

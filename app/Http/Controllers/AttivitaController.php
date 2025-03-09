@@ -127,6 +127,7 @@ class AttivitaController extends Controller
                     ->get();
             }
         }
+
         return view('attivita.index')->with("viewData", $viewData);
     }
 
@@ -152,18 +153,8 @@ class AttivitaController extends Controller
                 })
                 ->get();
 
-        } elseif ($categoria == 0) {
-            $viewData['attivita'] = Attivita::where('published', 1)
-            ->where(function ($query) use ($dataOggius) {
-                $query->where(function ($query) use ($dataOggius) {
-                    $query->where('calendario', 0)
-                        ->whereDate('data_inizio', '>=', $dataOggius);
-                })->orWhere(function ($query) use ($dataOggius) {
-                    $query->whereIn('calendario', [1, 2])
-                        ->whereDate('data_fine', '>=', $dataOggius);
-                });
-            })
-            ->get();
+        } else {
+
         }
 
         return view('attivita.index')->with("viewData", $viewData);
