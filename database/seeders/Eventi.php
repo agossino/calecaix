@@ -40,7 +40,7 @@ class Eventi extends Seeder
         DB::table('tipo_attivitas')->insert(['id' => 3, 'tipo_attivita' => 3,  'order' => 3,'nome' => 'Grandi Trekking','descrizione' => 'Trekking a tappe successive in Italia e all\'estero di piu giorni']);
         DB::table('tipo_attivitas')->insert(['id' => 4, 'tipo_attivita' => 4,  'order' => 4,'nome' => 'Scialpinismo','descrizione' => 'Sci Alpinismo']);
         DB::table('tipo_attivitas')->insert(['id' => 5, 'tipo_attivita' => 5,  'order' => 5,'nome' => 'Ciclo escursionismo','descrizione' => 'Ciclo escursionismo']);
-        DB::table('tipo_attivitas')->insert(['id' => 6, 'tipo_attivita' => 6,  'order' => 6,'nome' => 'alpinismogiovanile','descrizione' => 'Alpinismo per ragazzi fino ai 17 anni']);
+        DB::table('tipo_attivitas')->insert(['id' => 6, 'tipo_attivita' => 6,  'order' => 6,'nome' => 'AlpinismoGiovanile','descrizione' => 'Alpinismo per ragazzi fino ai 17 anni']);
         DB::table('tipo_attivitas')->insert(['id' => 7, 'tipo_attivita' => 7,  'order' => 7,'nome' => 'Trekkingcoltreno','descrizione' => 'Link al sito Trekking col treno']);
         DB::table('tipo_attivitas')->insert(['id' => 8, 'tipo_attivita' => 8,  'order' => 8,'nome' => 'Eventi CAIBO','descrizione' => 'Eventi vari, cinema, incontri in sede,riunioni, aggiornamenti ecc ... ']);
         DB::table('tipo_attivitas')->insert(['id' => 9, 'tipo_attivita' => 9,  'order' => 9,'nome' => 'Trekking Residenziali','descrizione' => 'Trekkig in Italia e al\'estero di piu giorni con base in singolo luogo']);

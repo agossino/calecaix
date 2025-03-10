@@ -32,133 +32,49 @@ class AttivitaController extends Controller
         // seleziona tipo_attivita 99 = tutti, $categoria = tipo_attivita
         if ($categoria == 99) {
             // se utente non login o se login come utente
-            if ($user == null || $user == 'utente') {
-                $viewData['attivita'] = Attivita::where('published', 1)
-                    ->where(function ($query) use ($dataOggius) {
-                        $query->where(function ($query) use ($dataOggius) {
-                            $query->where('calendario', 0)
-                                ->whereDate('data_inizio', '>=', $dataOggius);
-                        })->orWhere(function ($query) use ($dataOggius) {
-                            //$query->where('tipo_attivita', 2)// calendario
-                            $query->where('calendario', '>=', 1)
-                                ->whereDate('data_fine', '>=', $dataOggius);
-                        });
-                    })
-                // ->whereRaw('LENGTH(titolo) > 2')
-                // ->whereRaw('LENGTH(descrizione) > 3')
-                    ->get();
-            } else {
-                if ($user->is_admin == 1 || $user->role == 'editor') {
-                    $viewData['attivita'] = Attivita::where('published', 1)
-                        ->where(function ($query) use ($dataOggius) {
-                            $query->where(function ($query) use ($dataOggius) {
-                                $query->where('calendario', 0)
-                                    ->whereDate('data_inizio', '>=', $dataOggius);
-                            })->orWhere(function ($query) use ($dataOggius) {
-                                //$query->where('tipo_attivita', 2)// calendario
-                                $query->where('calendario', '>=', 1)
-                                    ->whereDate('data_fine', '>=', $dataOggius);
-                            });
-                        })
-                        ->get();
-                }
-            }
 
-// tutte le attivita
-        } elseif ($categoria != 0) {
-            // se categoria scelta da home trekking, corsi, ecc..
-            if ($user == null || $user == 'utente') {
-                $viewData['attivita'] = Attivita::where('published', 1)
-                    ->where('tipo_attivita', $categoria)
-                    ->where(function ($query) use ($dataOggius) {
-                        // usa data_inizio per filtrare le attivita da visualizzare
-                        $query->where(function ($query) use ($dataOggius) {
-                            $query->where('calendario', 0)
-                                ->whereDate('data_inizio', '>=', $dataOggius);
-                        })->orWhere(function ($query) use ($dataOggius) {
-                            //$query->where('tipo_attivita', 2)
-                            // usa data_fine se il campo 'calendario' contiene 1
-                            $query->where('calendario', '>=', 1)
-                                ->whereDate('data_fine', '>=', $dataOggius);
-                        });
-                    })
-                    ->get();
-
-            } else {
-                // se amminstratore ecc..
-                if ($user->is_admin == 1 || $user->role == 'editor') {
-                    $viewData['attivita'] = Attivita::where('published', 1)
-                        ->where('tipo_attivita', $categoria)
-                        ->where(function ($query) use ($dataOggius) {
-                            // usa data_inizio per filtrare le attivita da visualizzare
-                            $query->where(function ($query) use ($dataOggius) {
-                                $query->where('calendario', 0)
-                                    ->whereDate('data_inizio', '>=', $dataOggius);
-                            })->orWhere(function ($query) use ($dataOggius) {
-                                //$query->where('tipo_attivita', 2)
-                                // usa data_fine se il campo 'calendario' contiene 1
-                                $query->where('calendario', '>=', 1)
-                                    ->whereDate('data_fine', '>=', $dataOggius);
-                            });
-                        })
-                        ->get();
-                }
-            }
-        } else {
-            // visualizza solo i calendari
-            if ($user == null || $user == 'utente') {
-                $viewData['attivita'] = Attivita::where('published', 1)
-                    ->where(function ($query) {
-                        // calendari tipo 1 e 2
-                        $query->where('calendario', '>=', 1);
-
-                    })
-                // solo se il calendario finisce nell'anno attuale
-                    ->where(function ($query) use ($dataOggius) {
-                        $query->whereYear('data_fine', now()->year);
-                    })
-                // ->whereRaw('LENGTH(titolo) > 2')
-                // ->whereRaw('LENGTH(descrizione) > 3')
-                    ->get();
-            } else {
-                // se amminstratore ecc..
-                $viewData['attivita'] = Attivita::where('published', 1)
-                    ->where('tipo_attivita', $categoria)
-                    ->get();
-            }
-        }
-
-        return view('attivita.index')->with("viewData", $viewData);
-    }
-
-// funzione index altenativa da finire e provare (tutti i nomi che finiscono per _x sono provvisori e si possono cancellare)
-    public function index_x(Request $request, $dataOggi = null, $categoria): \Illuminate\Contracts\View\View
-    {
-        $dataOggi             = $dataOggi ?? now()->format('Y-m-d'); // Usa la data di oggi se non è fornita
-        $viewData             = [];
-        $dataOggius           = Carbon::createFromFormat("d-m-Y", $dataOggi)->format("Y-m-d");
-        $viewData['dataoggi'] = $dataOggi;
-        $user                 = Auth::user();
-        // tutti da data di oggi inzio o fine se calndari
-        if ($categoria == 99) {
             $viewData['attivita'] = Attivita::where('published', 1)
                 ->where(function ($query) use ($dataOggius) {
                     $query->where(function ($query) use ($dataOggius) {
                         $query->where('calendario', 0)
                             ->whereDate('data_inizio', '>=', $dataOggius);
                     })->orWhere(function ($query) use ($dataOggius) {
-                        $query->whereIn('calendario', [1, 2])
+                        //$query->where('tipo_attivita', 2)// calendario
+                        $query->where('calendario', '>=', 1)
+                            ->whereDate('data_fine', '>=', $dataOggius);
+                    })->orWhere(function ($query) use ($dataOggius) {
+                        $query->where('tipo_attivita', 0)
+                            ->whereDate('data_fine', '>=', $dataOggius);
+                    });
+                })
+            // ->whereRaw('LENGTH(titolo) > 2')
+            // ->whereRaw('LENGTH(descrizione) > 3')
+                ->get();
+        } else {
+            $viewData['attivita'] = Attivita::where('published', 1)
+                ->where('tipo_attivita', $categoria)
+                ->where(function ($query) use ($dataOggius) {
+                    // usa data_inizio per filtrare le attivita da visualizzare
+                    $query->where(function ($query) use ($dataOggius) {
+                        $query->where('calendario', 0)
+                            ->whereDate('data_inizio', '>=', $dataOggius);
+                    })->orWhere(function ($query) use ($dataOggius) {
+                        //$query->where('tipo_attivita', 2)
+                        // usa data_fine se il campo 'calendario' contiene 1
+                        $query->where('calendario', '>=', 1)
+                            ->whereDate('data_fine', '>=', $dataOggius);
+                    })->orWhere(function ($query) use ($dataOggius) {
+                        $query->where('tipo_attivita', 0)
                             ->whereDate('data_fine', '>=', $dataOggius);
                     });
                 })
                 ->get();
-
-        } else {
-
         }
 
         return view('attivita.index')->with("viewData", $viewData);
     }
+
+    
 
     public function singolo($id)
     {
@@ -213,7 +129,7 @@ class AttivitaController extends Controller
     }
 
     /**
-     * Aggiorna 
+     * Aggiorna
      */
 
     public function save_edit(Request $request, $id)
