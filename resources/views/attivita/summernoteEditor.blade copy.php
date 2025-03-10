@@ -11,7 +11,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 @php
     $attivita = $viewData['attivita'];
@@ -61,7 +63,6 @@
                     <div>
                         <label>Testo</label>
                         <textarea id="summernote" name="descrizione">{{ $attivita->descrizione }}</textarea>
-                        <textarea id="content" name="descrizione" class="tinymce-editor">{{ $attivita->descrizione }}</textarea>
                         <br>
                     </div>
                     <br>
@@ -81,12 +82,21 @@
 
     </div>
 </div>
-<script>
-    tinymce.init({
-        selector: 'textarea.tinymce-editor', // Selettore per il tuo elemento textarea
-        plugins: 'advlist autolink lists link image charmap print preview fullscreen media table code',
-        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-        height: 300
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 300,
+            lineHeights: ['0.5', '1.0', '1.5', '2.0', '2.5', '3.0'],
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']]
+            ]
+        });
     });
 </script>
 </html>

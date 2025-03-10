@@ -61,11 +61,7 @@ $attivita = $viewData['attivita'];
         padding-right: 5px;
     }
 
-    .card-text {
-        margin-bottom: 0;
-        height: 80px;
-        overflow: auto
-    }
+  
 
     .card-title {
         height: 40px;
@@ -197,14 +193,11 @@ $attivita = $viewData['attivita'];
         <div class="container-lg">
 
             <x-menu-bar>
-
-
                 <form action="{{ url('attivita/cerca' . '/index') }}" method="GET">
                     <label class="lb_cerca"> </label>
                     <input type="text" class="cerca" name="cerca" placeholder="Inserisci una parola del titolo">
                     <button type="submit" style="margin-top:-3px;" class="btn btn-primary btn-sm">Cerca</button>
                 </form>
-
             </x-menu-bar>
 
             @if (session('message'))
@@ -215,23 +208,22 @@ $attivita = $viewData['attivita'];
 
             <div class="grid-container_attivita">
                 <!-- visualizza tipo di attivita nel box in alto -->
-            @foreach ($attivita as $attiv)
-            <div class="card carta">
-                @if ($attiv->tipo_attivita == 0)
-                    @include('parziali.calendario', ['attivita' => $attiv])
-                @elseif ($attiv->tipo_attivita == 1)
-                    @include('parziali.trekking', ['attivita' => $attiv])
-                @endif
+                @foreach ($attivita as $attiv)
+                    <div class="card carta">
+                        @if ($attiv->tipo_attivita == 0)
+                            @include('parziali.calendario', ['attivita' => $attiv])
+                        @elseif (in_array($attiv->tipo_attivita, [1, 2, 3, 4, 6, 7, 9]))
+                            @include('parziali.trekking', ['attivita' => $attiv])
+                        @elseif (in_array($attiv->tipo_attivita, [5]))
+                            @include('parziali.cicloescursionismo', ['attivita' => $attiv])
+                        @elseif (in_array($attiv->tipo_attivita, [8]))
+                            @include('parziali.eventicaibo', ['attivita' => $attiv])
+                        @endif
+                    </div>
+                @endforeach
+
             </div>
-            @endforeach
-
         </div>
-
-
-
-
-
-    </div>
 
 
 
