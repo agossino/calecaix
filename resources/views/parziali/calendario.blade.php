@@ -22,8 +22,8 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
 
 
 <style>
-    .par2 {
-        background: red;
+    .par {
+        color: brown;
     }
 </style>
 
@@ -39,21 +39,40 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
         @endif
 
 
-        <div class="par2">
-
+        <div class="par" style="text-align: center;">
             {{ $tipoattivita->find($attiv->tipo_attivita)->nome }}<br>
-            {{ $attiv->titolo }}<br>
         </div>
         <div>
             @if (isset($attiv->image_file) && $attiv->image_file != null)
                 <a href="{{ url('/attivita/singolo' . '/' . $attiv->id) }}">
                     <img class="img_box" src="{{ asset('storage/imgtrek/' . $attiv->image_file) }}"
-                        alt="attivita cai bologna"></a>
+                        alt="attivita cai bologna" style="height: 270px;"></a>
             @else
                 {{ 'IMMAGINE MANCANTE' }}
             @endif
         </div>
-
+        <div style="min-height: 3em;">
+            <strong style="color: darkgreen; font-size: 14px; font-weight: 770;"> {{ $attiv->titolo }}</strong><br>
+        </div>
+        <div>
+            <strong>Data Inizio:</strong>
+            {{ Carbon::createFromFormat('Y-m-d', $attiv->data_inizio)->format('d-m-Y') }}<br>
+            <strong>Data Fine:</strong> {{ Carbon::createFromFormat('Y-m-d', $attiv->data_fine)->format('d-m-Y') }}<br>
+        </div>
 
     </div>
+
+    <!-- Lista iscritti se accompagnatore e tipo iscrizione 1 = modulo caibo-->
+
+    @if (isset($user) && ($user->role == 'accompagnatore' || $user->role == 'amministratore'))
+        @if ($attiv->tipo_iscrizione == 3)
+        @endif
+
+        @if ($attiv->tipo_iscrizione == 1)
+            <a href="{{ url('/iscritti/show' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">Lista
+                Iscritti
+            </a>
+        @endif
+    @endif
+
 </div>
