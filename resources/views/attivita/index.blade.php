@@ -56,8 +56,8 @@ $attivita = $viewData['attivita'];
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 10px;
-        width: 250px;
-        height: 300px;
+        width: 260px;
+        height: 240px;
         padding-right: 5px;
     }
 
