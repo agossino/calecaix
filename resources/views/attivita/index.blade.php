@@ -212,12 +212,12 @@ $attivita = $viewData['attivita'];
                     <div class="card carta">
                         @if ($attiv->tipo_attivita == 0)
                             @include('parziali.calendario', ['attivita' => $attiv])
-                        @elseif (in_array($attiv->tipo_attivita, [1, 2, 3, 4, 6, 7, 9]))
-                            @include('parziali.trekking', ['attivita' => $attiv])
-                        @elseif (in_array($attiv->tipo_attivita, [5]))
+                        @elseif (in_array($attiv->tipo_attivita, [1, 2, 3, 4, 5,6, 7,8, 9]))
+                            @include('parziali.generico', ['attivita' => $attiv])
+                        {{-- @elseif (in_array($attiv->tipo_attivita, [5]))
                             @include('parziali.cicloescursionismo', ['attivita' => $attiv])
                         @elseif (in_array($attiv->tipo_attivita, [8]))
-                            @include('parziali.eventicaibo', ['attivita' => $attiv])
+                            @include('parziali.eventicaibo', ['attivita' => $attiv])--}}
                         @endif
                     </div>
                 @endforeach

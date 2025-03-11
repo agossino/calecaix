@@ -57,7 +57,7 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
         <div class="note" style="min-height: 3em;">
             <!-- Note sottotitolo-->
             @if (isset($attiv->note) && $attiv->note != '')
-            <p class="card-text">{{ strip_tags($attiv->note) }}</p>
+                <p class="card-text">{{ strip_tags($attiv->note) }}</p>
             @endif
         </div>
         <div>
@@ -82,39 +82,20 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
             <br>
         </div>
 
-        <div>
+        <div class="isc">
             <!-- Lista iscritti se accompagnatore e tipo iscrizione 1 = modulo caibo-->
-            @if (isset($attiv->tipo_iscrizione) && $attiv->tipo_iscrizione != 4)
+            @if (isset($attiv->tipo_iscrizione) && $attiv->tipo_iscrizione != 4) <!-- 4 = no iscrizioni -->
                 @if (isset($attiv->inizio_iscrizioni) && isset($attiv->fine_iscrizioni))
                     @if ($dataOggius >= $attiv->inizio_iscrizioni && $dataOggius < $attiv->fine_iscrizioni)
                         <!-- ISCRIZIONE ---->
                         @if ($attiv->tipo_iscrizione == 3)
-                            <div>
-                                @if (strpos($attiv->link_modulo_esterno, 'https://') !== false ||
-                                        strpos($attiv->link_modulo_esterno, 'http://') !== false)
+                            <!-- Modulo esterno -->
+                            @include('parziali.iscrizioni3', ['attivita' => $attiv])
+                        @endif
 
-                                    <a href="{{ $attiv->link_modulo_esterno }}">
-                                        <span style="color:rgba(var(--bs-link-color-rgb)">{{ 'Iscrizione' }}<br>
-                                            @if ($attiv->socio == 1)
-                                                <label class="socio">Solo soci</label><br>
-                                            @endif
-                                            @if ($attiv->socio == 0)
-                                                <label class="socio"><span class="libera">
-                                                        Soci</span></label><br>
-                                            @endif
-                                        </span>
-                                    </a>
-                                @else
-                                    <span style="color:green">{{ 'Iscrizione' }}</span><br>
-                                @endif
-                            </div>
-                        @else
-                            <a href="{{ url('/iscrizione/tipo' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">
-                                {{ 'Iscrizione' }}
-                                @if ($attiv->socio == 1)
-                                    <label class="socio">(Soci CAI)</label><br>
-                                @endif
-                            </a>
+                        @if ($attiv->tipo_iscrizione == 1)
+                            <!-- Modulo esterno -->
+                            @include('parziali.iscrizioni1', ['attivita' => $attiv])
                         @endif
                     @else
                         {{ 'Iscrizioni chiuse' }}<br>
@@ -122,12 +103,10 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
 
                     @if ($attiv->inizio_iscrizioni)
                         @php
-                            $inizio_iscr = Carbon::createFromFormat('Y-m-d', $attiv->inizio_iscrizioni)->format(
-                                'd-m-Y',
-                            );
+                            $inizio_iscr = Carbon::createFromFormat('Y-m-d', $attiv->inizio_iscrizioni)->format('d-m-Y' );
                         @endphp
-                        <br>
-                        {{ 'Inizio ' . $inizio_iscr }}
+
+                        {{ 'Inizio iscrizioni ' . $inizio_iscr }}
                     @endif
 
                     @if ($attiv->fine_iscrizioni)
@@ -135,7 +114,7 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
                             $fine_iscr = Carbon::createFromFormat('Y-m-d', $attiv->fine_iscrizioni)->format('d-m-Y');
                         @endphp
                         <br>
-                        {{ 'Fine ' . $fine_iscr }}
+                        {{ 'Fine iscrizioni ' . $fine_iscr }}
                     @endif
                 @endif
             @else
@@ -149,7 +128,8 @@ $tipovolantino = TipoVolantino::where('published', 1)->get();
 
     @if (isset($user) && ($user->role == 'accompagnatore' || $user->role == 'amministratore'))
         @if ($attiv->tipo_iscrizione == 1)
-            <a style="margin-left:10px;color:darkred;" href="{{ url('/iscritti/show' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">Lista
+            <a style="margin-left:10px;color:darkred;"
+                href="{{ url('/iscritti/show' . '/' . $attiv->tipo_iscrizione . '/' . $attiv->id) }}">Lista
                 Iscritti
             </a>
         @endif
