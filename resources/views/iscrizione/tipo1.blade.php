@@ -9,11 +9,11 @@
 
 @php
     // $attivita = Attivita::where("published", 1)->get();
-    $attivita = $viewData["attivita"];
-    $tipo_attivita = TipoAttivita::where("published", 1)->get();
-    $iscrizione_tipo = TipoIscrizione::where("published", 1)->get();
-    $cai_sezioni = CaiSezioni::where("published", 1)->get();
-    
+    $attivita = $viewData['attivita'];
+    $tipo_attivita = TipoAttivita::where('published', 1)->get();
+    $iscrizione_tipo = TipoIscrizione::where('published', 1)->get();
+    $cai_sezioni = CaiSezioni::where('published', 1)->get();
+
 @endphp
 
 
@@ -67,9 +67,9 @@
 <!-- Iscrizione tipo1 modulo caibo -->
 <x-layout_cai>
 
-    @if (session("success"))
+    @if (session('success'))
         <div class="alert alert-success">
-            {{ session("success") }}
+            {{ session('success') }}
         </div>
     @endif
 
@@ -89,7 +89,7 @@
                 <label class="modulo">Modulo iscrizione caibo </label>
                 <div class="tito">{{ $attivita->titolo }}</div>
 
-                <form action="{{ route("iscrizione.store") }}" method="POST">
+                <form action="{{ route('iscrizione.store') }}" method="POST">
                     @csrf
 
                     <input type="hidden" class="form-control" id="iscrizione_tipo" name="iscrizione_tipo"
@@ -118,33 +118,35 @@
                         <input type="text" class="form-control" id="telefono" name="telefono" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="socio_cai" class="form-label">Socio CAI*</label>
-                        <select class="form-select" id="socio_cai" name="socio_cai" required>
-                            <option value="">Seleziona</option>
-                            <option value="Si">Sì</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
+                    @if (in_array($attivita->tipo_socio, [1]))
+                        <div class="mb-3">
+                            <label for="socio_cai" class="form-label">Socio CAI*</label>
+                            <select class="form-select" id="socio_cai" name="socio_cai" required>
+                                <option value="">Seleziona</option>
+                                <option value="Si">Sì</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
 
 
 
-                    <div class="mb-3" id="sezione_container" style="display: none;">
-                        <label for="sezione" class="form-label">Sezione CAI*</label>
-                        <select class="form-select" name="sezione" aria-label="Sezione">
-                            <option selected>Selezione</option>
-                            @foreach ($cai_sezioni as $sezione)
-                                <option value="{{ $sezione->id }}">{{ $sezione->nome }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
+                        <div class="mb-3" id="sezione_container" style="display: none;">
+                            <label for="sezione" class="form-label">Sezione CAI*</label>
+                            <select class="form-select" name="sezione" aria-label="Sezione">
+                                <option selected>Selezione</option>
+                                @foreach ($cai_sezioni as $sezione)
+                                    <option value="{{ $sezione->id }}">{{ $sezione->nome }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+                    
                     <div class="mb-3">
                         <label for="email" class="form-label">Tua Email* (verra mandata email di conferma)</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
 
-                  
+
                     @if ($attivita->tipo_attivita == 6)
                         <div class="mb-3">
                             <label for="data_nascita" class="form-label">Data di nascita*</label>
@@ -158,23 +160,23 @@
                         <input type="checkbox" class="form-check-input" id="accettazione_termini"
                             name="accettazione_termini" required>
                         <label class="form-check-label" for="accettazione_termini">
-                            Accetto i <a href="{{ route("termini") }}" target="_blank">Termini</a>
+                            Accetto i <a href="{{ route('termini') }}" target="_blank">Termini</a>
                         </label>
                     </div>
 
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="accettazione_privacy"
                             name="accettazione_privacy" required>
-                        {{--<label class="form-check-label" for="accettazione_privacy">
+                        {{-- <label class="form-check-label" for="accettazione_privacy">
                             Accetto la <a href="{{ route("privacy") }}" target="_blank">Privacy</a>
-                        </label>--}}
+                        </label> --}}
                         <label class="form-check-label" for="accettazione_privacy">
                             Accetto la <a href="https://caibo.it/privacy.html" target="_blank">Privacy</a>
                         </label>
                     </div>
 
-                    <input type="hidden" id="iscrizione_tipo"
-                            name="iscrizione_tipo" value="{{1}}" required>
+                    <input type="hidden" id="iscrizione_tipo" name="iscrizione_tipo" value="{{ 1 }}"
+                        required>
 
                     <button type="submit" class="btn btn-primary">Registrati</button>
                 </form>
@@ -195,5 +197,5 @@
             </script>
         </div>
     </div>
-    
+
 </x-layout_cai>
