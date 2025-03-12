@@ -103,6 +103,15 @@
                 </div>
 
                 <div class="grid-item">
+                    <li> <a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/10') }}">
+                            <div class="tit-testo">Escursioni Consulta</div>
+                            <label>Trekking Colline Fuori Porta Bologna</label>
+                            <img class="ima" src="img/trekking-attivita.webp"
+                                alt="Eventi cai">
+                        </a></li>
+                </div>
+
+                <div class="grid-item">
                     <li> <a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/2') }}">
                             <div class="tit-testo">Corsi</div>
                             <label>Corsi di tutti i tipi</label>
@@ -153,13 +162,15 @@
                 </div>
 
                 <div class="grid-item">
-                    <li> <a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/10') }}">
+                    <li> <a class="btn  btn-sm" href="{{ url('/attivita/index/' . $dataOggi . '/9') }}">
                             <div class="tit-testo">Eventi sede CAI Bologna</div>
                             <label>Eventi vari in sede </label>
                             <img class="ima" src="img/eventi.png"
                                 alt="Eventi cai">
                         </a></li>
                 </div>
+
+           
 
                 {{-- <div class="grid-item">
                     <li> <a class="btn  btn-sm" href="{{ url("/mercatino.index") }}">
